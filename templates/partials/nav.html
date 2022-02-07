@@ -4,13 +4,13 @@
       <div class="collapse navbar-collapse m-2" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto ">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
             </li> 
             <li class="nav-item active">
                 <a class="nav-link" href="#">Library</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">Playlists</a>
+                <a class="nav-link" href="{{ url_for('playlists.index') }}">Playlists</a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="#">Tags</a>
@@ -18,7 +18,7 @@
            
 
             <li class="nav-item active pull-right">
-                <a class="nav-link" href="#">Generate Playlist</a>
+                <a class="nav-link" href="{{ url_for('playlists.new') }}">Generate Playlist</a>
             </li>
         </ul>
 

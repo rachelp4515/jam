@@ -5,6 +5,7 @@ from blueprints.main import routes as main_routes
 from blueprints.playlists import routes as playlist_routes
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", os.urandom(6))
 
 app.register_blueprint(main_routes)
 app.register_blueprint(playlist_routes)
