@@ -34,6 +34,10 @@ def create():
     playlist_name = request.form.get("name")
     playlist_description = request.form.get("description")
 
+    if not playlist_name or not playlist_description:
+        flash("Missing info!")
+        return redirect(url_for("playlists.new"))
+
     playlist = {
         "user_id": "",
         "name": playlist_name,
