@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Edit Playlist</h1>
+        <form action="{{ url_for('playlists.update', playlist_id=playlist._id) }}" method="POST">
+            <div class="form-group mb-2">
+                <label class="w-100">Name
+                    <input type="text" class="form-control" placeholder="Playlist name" name="name"
+                           value="{{ playlist.name }}" required>
+                </label>
+            </div>
+            <div class="form-group mb-2">
+                <label class="w-100">Description
+                    <textarea class="form-control" rows="2" placeholder="Playlist description" name="description"
+                              required>{{ playlist.description }}</textarea>
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}

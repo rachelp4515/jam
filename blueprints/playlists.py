@@ -48,7 +48,41 @@ def create():
     return redirect(url_for("playlists.show", playlist_id=playlist["_id"]))
 
 
-@routes.route("/<string:playlist_id>", methods=["DELETE"])
+@routes.route("/<string:playlist_id>/delete", methods=["POST"])
 def destroy(playlist_id):
     db.playlists.delete_one({"_id": ObjectId(playlist_id)})
     return "Deleted", 200
+
+
+@routes.route("/<string:playlist_id>/edit/")
+def edit(playlist_id):
+    if not ObjectId.is_valid(playlist_id):
+        flash("Invalid playlist!")
+        return redirect(url_for("playlists.index"))
+
+    playlist = db.playlists.find_one({"_id": ObjectId(playlist_id)})
+    if not playlist:
+        flash("That playlist does not exist!")
+        return redirect(url_for("playlists.index"))
+
+    return render_template("edit_playlist.html", playlist=playlist)
+
+
+@routes.route("/<string:playlist_id>/update/", methods=["POST"])
+def update(playlist_id):
+    if not ObjectId.is_valid(playlist_id):
+        flash("Invalid playlist!")
+        return redirect(url_for("playlists.index"))
+
+    playlist = db.playlists.find_one({"_id": ObjectId(playlist_id)})
+    if not playlist:
+        flash("That playlist does not exist!")
+        return redirect(url_for("playlists.index"))
+
+    db.playlists.update_one({"_id": ObjectId(playlist_id)},
+                            {"$set": {
+                                "name": request.form.get("name"),
+                                "description": request.form.get("description")
+                            }})
+
+    return redirect(url_for("playlists.show", playlist_id=playlist_id))
