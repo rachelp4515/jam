@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Your Library</h1>
+        <a href="{{ url_for('songs.new') }}">Add Song</a>
+
+        <div class="row mt-3">
+            {% for song in songs %}
+                <div class="col-md-3">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ song.name }}</h2>
+                            <p class="card-text">{{ song.artist }}</p>
+                            <a href="{{ url_for('songs.show', song_id=song['_id']) }}">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <p class="lead">No songs!</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

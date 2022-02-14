@@ -5,5 +5,5 @@ host = os.environ.get("MONGODB_URI")
 client = MongoClient(host=host)
 db = client.jam
 
-playlists = db.playlists
+songs = db.songs
 users = db.users
