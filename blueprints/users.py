@@ -4,7 +4,6 @@ import db
 import bcrypt
 
 routes = Blueprint("users", __name__, url_prefix="/users")
-users = db.users
 
 
 @routes.route("/users")
@@ -42,7 +41,7 @@ def login():
             # add user to session
             session['username'] = request.form['username']
             flash("Login successful", "success")
-        return redirect(url_for('index'))
+        return redirect(url_for('user_login'))
     # if password is wrong or username doesnt exist
     return 'Invalid username/password combination'
 
