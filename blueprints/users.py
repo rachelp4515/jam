@@ -11,6 +11,21 @@ def index():
     users = db.users.find({})
     return render_template('index.html', users=users)
 
+# user login
+@routes.route('/login', methods=['POST'])
+def login():
+    login_user = users.find_one({'name': request.form['username']})
+
+    if login_user:
+        # checks if passwords are same
+        if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']:
+            # add user to session
+            session['username'] = request.form['username']
+            flash("Login successful", "success")
+        return redirect(url_for('index'))
+    # if password is wrong or username doesnt exist
+    return 'Invalid username/password combination'
+
 # create new user
 @routes.route('/register', methods=['POST', 'GET'])
 def register():
@@ -30,20 +45,7 @@ def register():
     return render_template('new_user.html', users=users)
 
 
-# user login
-@routes.route('/login', methods=['POST'])
-def login():
-    login_user = users.find_one({'name': request.form['username']})
 
-    if login_user:
-        # checks if passwords are same
-        if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']:
-            # add user to session
-            session['username'] = request.form['username']
-            flash("Login successful", "success")
-        return redirect(url_for('index'))
-    # if password is wrong or username doesnt exist
-    return 'Invalid username/password combination'
 
 
 # 
