@@ -5,12 +5,14 @@ import db
 routes = Blueprint("songs", __name__, url_prefix="/songs")
 
 
+# Index
 @routes.route("/")
 def index():
     songs = db.songs.find({})
     return render_template("library.html", songs=songs)
 
 
+# Show one
 @routes.route("/<string:song_id>/")
 def show(song_id):
     if not ObjectId.is_valid(song_id):
@@ -24,11 +26,13 @@ def show(song_id):
     return render_template("song.html", song=song)
 
 
+# New song form
 @routes.route("/new/")
 def new():
     return render_template("new_song.html")
 
 
+# Create song
 @routes.route("/", methods=["POST"])
 def create():
     song_name = request.form.get("name")
@@ -46,12 +50,14 @@ def create():
     return redirect(url_for("songs.show", song_id=song["_id"]))
 
 
+# Delete song
 @routes.route("/<string:song_id>/delete", methods=["POST"])
 def destroy(song_id):
     db.songs.delete_one({"_id": ObjectId(song_id)})
     return "Deleted", 200
 
 
+# Edit song form
 @routes.route("/<string:song_id>/edit/")
 def edit(song_id):
     if not ObjectId.is_valid(song_id):
@@ -66,6 +72,7 @@ def edit(song_id):
     return render_template("edit_song.html", song=song)
 
 
+# Update song
 @routes.route("/<string:song_id>/update/", methods=["POST"])
 def update(song_id):
     if not ObjectId.is_valid(song_id):
@@ -78,9 +85,9 @@ def update(song_id):
         return redirect(url_for("songs.index"))
 
     db.songs.update_one({"_id": song["_id"]},
-                            {"$set": {
-                                "name": request.form.get("name"),
-                                "artist": request.form.get("artist")
-                            }})
+                        {"$set": {
+                            "name": request.form.get("name"),
+                            "artist": request.form.get("artist")
+                        }})
 
     return redirect(url_for("songs.show", song_id=song["_id"]))
