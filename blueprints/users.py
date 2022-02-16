@@ -1,15 +1,15 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, session
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session, request
 from bson.objectid import ObjectId
-import db
+from db import db,users
 import bcrypt
 
 routes = Blueprint("users", __name__, url_prefix="/users")
 
 
-@routes.route("/users")
+@routes.route("/")
 def index():
     users = db.users.find({})
-    return render_template("users.html", users=users)
+    return render_template('index.html', users=users)
 
 # create new user
 @routes.route('/register', methods=['POST', 'GET'])
@@ -24,7 +24,7 @@ def register():
             users.insert_one({'name': request.form['username'], 'password': hashpass})
             # create session
             session['username'] = request.form['username']
-            return redirect(url_for('user_login'))
+            return redirect(url_for('index'))
 
         return 'That username already exists!'
     return render_template('new_user.html', users=users)
@@ -41,12 +41,9 @@ def login():
             # add user to session
             session['username'] = request.form['username']
             flash("Login successful", "success")
-        return redirect(url_for('user_login'))
+        return redirect(url_for('index'))
     # if password is wrong or username doesnt exist
     return 'Invalid username/password combination'
 
 
-# show user
-@routes.route('/users/<user_id>')
-def show_user(user_id):
-    pass
+# 
