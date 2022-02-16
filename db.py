@@ -7,3 +7,4 @@ db = client.jam
 
 songs = db.songs
 users = db.users
+tags = db.tags
