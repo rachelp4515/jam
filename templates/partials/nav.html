@@ -6,18 +6,30 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('songs.index') }}">Library</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Playlists</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Tags</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Generate Playlist</a>
-                </li>
+                {% if session['username'] %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('songs.index') }}">Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Playlists</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tags</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Generate Playlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('users.login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('users.register') }}">Signup</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
