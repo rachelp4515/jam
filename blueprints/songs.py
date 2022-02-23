@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from bson.objectid import ObjectId
 import db
 
@@ -8,18 +8,26 @@ routes = Blueprint("songs", __name__, url_prefix="/songs")
 # Index
 @routes.route("/")
 def index():
-    songs = db.songs.find({})
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+
+    songs = db.songs.find({"user_id": user["_id"]})
     return render_template("songs/library.html", songs=songs)
 
 
 # Show one
 @routes.route("/<string:song_id>/")
 def show(song_id):
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+
     if not ObjectId.is_valid(song_id):
         flash("Invalid song!")
         return redirect(url_for("songs.index"))
 
-    song = db.songs.find_one({"_id": ObjectId(song_id)})
+    song = db.songs.find_one({"_id": ObjectId(song_id), "user_id": user["_id"]})
     if not song:
         flash("That song does not exist!")
         return redirect(url_for("songs.index"))
@@ -29,12 +37,20 @@ def show(song_id):
 # New song form
 @routes.route("/new/")
 def new():
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+
     return render_template("songs/new_song.html")
 
 
 # Create song
 @routes.route("/", methods=["POST"])
 def create():
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+
     song_name = request.form.get("name")
     song_artist = request.form.get("artist")
 
@@ -43,6 +59,7 @@ def create():
         return redirect(url_for("songs.new"))
 
     song = {
+        "user_id": user["_id"],
         "name": song_name,
         "artist": song_artist
     }
@@ -53,18 +70,26 @@ def create():
 # Delete song
 @routes.route("/<string:song_id>/delete", methods=["POST"])
 def destroy(song_id):
-    db.songs.delete_one({"_id": ObjectId(song_id)})
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+
+    db.songs.delete_one({"_id": ObjectId(song_id), "user_id": user["_id"]})
     return "Deleted", 200
 
 
 # Edit song form
 @routes.route("/<string:song_id>/edit/")
 def edit(song_id):
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+
     if not ObjectId.is_valid(song_id):
         flash("Invalid song!")
         return redirect(url_for("songs.index"))
 
-    song = db.songs.find_one({"_id": ObjectId(song_id)})
+    song = db.songs.find_one({"_id": ObjectId(song_id), "user_id": user["_id"]})
     if not song:
         flash("That song does not exist!")
         return redirect(url_for("songs.index"))
@@ -75,6 +100,10 @@ def edit(song_id):
 # Update song
 @routes.route("/<string:song_id>/update/", methods=["POST"])
 def update(song_id):
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+
     if not ObjectId.is_valid(song_id):
         flash("Invalid song!")
         return redirect(url_for("songs.index"))
