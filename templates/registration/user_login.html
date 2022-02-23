@@ -5,7 +5,7 @@
     <div class="row">
       <div class="card container d-flex flex-column justify-content-center align-items-center" style="height: 60vh; width: 40vw;">
         <legend class='text-center p-3 fs-2'>Log In</legend>
-        <form class="form justify-content-around" method='POST' action="{{ url_for('login') }}">
+        <form class="form justify-content-around" method='POST' action="{{ url_for('users.login') }}">
           <div class="form-group p-3">
             <label for="inputUser">Username</label>
             <input type="text" class="form-control" name="username" placeholder="Username">
@@ -22,7 +22,7 @@
         </form>
         <br>
         <div class="p-3">
-          Don't have an account? <a href="{{ url_for('register') }}">Create an account</a>
+          Don't have an account? <a href="{{ url_for('users.register') }}">Create an account</a>
         </div>
       </div>
     </div>

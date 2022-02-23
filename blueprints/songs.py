@@ -9,7 +9,7 @@ routes = Blueprint("songs", __name__, url_prefix="/songs")
 @routes.route("/")
 def index():
     songs = db.songs.find({})
-    return render_template("library.html", songs=songs)
+    return render_template("songs/library.html", songs=songs)
 
 
 # Show one
@@ -23,13 +23,13 @@ def show(song_id):
     if not song:
         flash("That song does not exist!")
         return redirect(url_for("songs.index"))
-    return render_template("song.html", song=song)
+    return render_template("songs/song.html", song=song)
 
 
 # New song form
 @routes.route("/new/")
 def new():
-    return render_template("new_song.html")
+    return render_template("songs/new_song.html")
 
 
 # Create song
@@ -69,7 +69,7 @@ def edit(song_id):
         flash("That song does not exist!")
         return redirect(url_for("songs.index"))
 
-    return render_template("edit_song.html", song=song)
+    return render_template("songs/edit_song.html", song=song)
 
 
 # Update song
