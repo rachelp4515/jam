@@ -23,15 +23,19 @@ def all_tags():
 
 @routes.route("/<string:tag_id>/")
 def show(tag_id):
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+
     if not ObjectId.is_valid(tag_id):
         flash("Invalid tag!")
         return redirect(url_for("tags.all_tags"))
 
-    tag = db.tags.find_one({"_id": ObjectId(tag_id)})
+    tag = db.tags.find_one({"_id": ObjectId(tag_id), "user_id": user["_id"]})
     if not tag:
         flash("That tag does not exist!")
-        return redirect(url_for("all_tags"))
-    return render_template("one_tag.html", tag=tag)
+        return redirect(url_for("tags.all_tags"))
+    return render_template("tags/one_tag.html", tag=tag)
 
 #-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_/ make new
 
@@ -40,15 +44,14 @@ def new():
     user = db.users.find_one({"name": session.get("username")})
     if not user:
         return redirect(url_for("users.login"))
-
-    return render_template("tags/new_tag.html")
+    songs = db.songs.find()
+    return render_template("tags/new_tag.html", songs= songs)
 
 #-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_/ post new
 
 @routes.route("/", methods=["POST"])
 def create():
     tag_title = request.form.get("title")
-
     if not tag_title:
         flash("Missing info!")
         return redirect(url_for("tags.new"))
@@ -56,9 +59,11 @@ def create():
     tag = {
         # "song_id" : ObjectId(request.form.get('song_id')),
         "title": tag_title,
+        "songs": request.form.get("songs")
     }
+    songs = db.songs.find()
     db.tags.insert_one(tag)
-    return redirect(url_for("tags.all_tags",song_id=request.form.get('song_id') ))
+    return redirect(url_for("tags.all_tags",song_id=request.form.get('song_id'), songs=songs))
 
 #-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_/ delete tag
 
@@ -71,6 +76,10 @@ def destroy(tag_id):
 
 @routes.route("/<string:tag_id>/edit/")
 def edit(tag_id):
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+        
     if not ObjectId.is_valid(tag_id):
         flash("Invalid tag!")
         return redirect(url_for("tags.index"))
@@ -80,7 +89,7 @@ def edit(tag_id):
         flash("That tag does not exist!")
         return redirect(url_for("tags.all_tags"))
 
-    return render_template("tags/edit_tag.html", tag=tag)
+    return render_template("tags/edit_tag.html", tag=tag, songs=db.songs.find(), tags = db.tags.find())
 
 
 #-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_/ update tag
@@ -99,6 +108,7 @@ def update(tag_id):
     db.tags.update_one({"_id": tag["_id"]},
                             {"$set": {
                                 "title": request.form.get("title"),
+                                "songs": request.form.get("songs")
                             }})
 
     return redirect(url_for("tags.show", tag_id=tag["_id"]))

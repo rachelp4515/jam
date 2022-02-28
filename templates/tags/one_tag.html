@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content%}
+<div class="container">
+    <h1>{{ tag.name }}</h1>
+    <p>{{ tag.artist }}</p>
+    <a href="{{ url_for('tags.edit', tag_id=tag._id) }}">Edit</a>
+</div>
+{% endblock%}

@@ -40,8 +40,9 @@ def new():
     user = db.users.find_one({"name": session.get("username")})
     if not user:
         return redirect(url_for("users.login"))
-
-    return render_template("songs/new_song.html")
+    tags=db.tags.find()
+    print(tags)
+    return render_template("songs/new_song.html",tags=tags )
 
 
 # Create song
@@ -94,7 +95,7 @@ def edit(song_id):
         flash("That song does not exist!")
         return redirect(url_for("songs.index"))
 
-    return render_template("songs/edit_song.html", song=song)
+    return render_template("songs/edit_song.html", song=song, tags = db.tags.find())
 
 
 # Update song

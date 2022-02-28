@@ -11,6 +11,18 @@
                     <input type="text" class="form-control" style="max-width: 350px ;" placeholder="tag name" name="title" required>
                 </label>
             </div>
+
+            
+            <div>
+                <h4>Songs to Tag</h4>
+                {% for song in songs %}
+
+                <input type="checkbox" id="songs" name="songs" value="songs">
+                <label for="songs">{{song.name}}</label>
+                {%endfor%}
+            </div>
+            
+              
            
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

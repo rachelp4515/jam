@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<h2>Generate a playlist</h2>
+
+<h3> 1. Select tags </h3>
+    <p>
+        {% for tag in tags %}
+        <input type="checkbox" name="tag" value="tag">
+        <label for="tag"> {{ tag.title }}</label>
+        {% endfor }
+    </p>
+
+<h3> 2. Input length of playlist</h3>
+    <input type="number" min="1" max="150" value="length" placeholder="number of songs">
+
+    
+{% endblock }
