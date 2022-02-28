@@ -1,0 +1,17 @@
+<!-- do things -->
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <h2> All Tags</h2>
+{% for tag in tags %}
+                <div>
+                    <p class="border border-primary rounded">{{ tag.title }}
+                    <form method='POST' action="/tags/{{tag._id}}/delete">
+                    <button class=" btn bg-danger border-dark" type="submit"> Delete </button>
+                    </form>
+                </p>
+                </div>
+    {%endfor%}
+</div>
+{% endblock %}

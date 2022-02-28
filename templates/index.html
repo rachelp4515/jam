@@ -1,8 +1,69 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-        <h1>Jam</h1>
-        <p></p>
+    <div class="container-fluid p-0">
+        <div class="p-5 mt-5 text-center">
+            <img class="d-block mx-auto mb-4" src="/images/logo.jpg" alt="logo" width="50"
+                 height="50">
+            <h1 class="display-5">Jam</h1>
+            <div class="col-md-6 mx-auto">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Odio ut sem nulla pharetra diam sit amet. Quis varius quam quisque id diam
+                    vel quam elementum pulvinar. Et ligula ullamcorper malesuada proin libero nunc consequat. Sed
+                    faucibus turpis in eu mi bibendum. Sit amet volutpat consequat mauris nunc congue nisi.</p>
+                <a href="{{ url_for('users.login') }}" class="btn btn-primary px-3">Join Now</a>
+            </div>
+        </div>
+
+        <div class="p-5 text-center bg-light">
+            <h1 class="display-6">Tags</h1>
+            <a href="{{ url_for('tags.new') }}" class="btn btn-primary px-3"> New Tag</a>
+            <p>Lorem ipsum dolor sit amet</p>
+
+
+
+            <div class="row mx-auto g-3 mt-2" style="width: 75%">
+
+                {% for tag in tags %}
+                <div class="col-md-3">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/250x150" class="card-img-top" alt="Example image">
+                        <div class="card-body p-1">
+                            <p class="card-title text-muted m-0">{{ tag.title }}</p>
+                            <a href="#" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+
+                <!-- <div class="col-md-3">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/250x150" class="card-img-top" alt="Example image">
+                        <div class="card-body p-1">
+                            <p class="card-title text-muted m-0">Placeholder tag</p>
+                            <a href="#" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/250x150" class="card-img-top" alt="Example image">
+                        <div class="card-body p-1">
+                            <p class="card-title text-muted m-0">Placeholder tag</p>
+                            <a href="#" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/250x150" class="card-img-top" alt="Example image">
+                        <div class="card-body p-1">
+                            <p class="card-title text-muted m-0">Placeholder tag</p>
+                            <a href="#" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
     </div>
 {% endblock %}

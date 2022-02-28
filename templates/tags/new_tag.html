@@ -1,0 +1,18 @@
+<!-- asdfhrnngg -->
+{% extends "base.html" %}
+
+{% block content %}
+<h4>new</h4>
+     <div class="container">
+        <h1>Add Tag</h1>
+        <form action="{{ url_for('tags.create') }}" method="POST">
+            <div class="form-group mb-2">
+                <label class="w-100">Name
+                    <input type="text" class="form-control" style="max-width: 350px ;" placeholder="tag name" name="title" required>
+                </label>
+            </div>
+           
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div> 
+{% endblock %}
