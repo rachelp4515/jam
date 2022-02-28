@@ -17,7 +17,7 @@
                 <h4>Songs to Tag</h4>
                 {% for song in songs %}
 
-                <input type="checkbox" id="songs" name="songs" value="songs">
+                <input type="checkbox" id="songs" name="songs" value="{{ song._id }}">
                 <label for="songs">{{song.name}}</label>
                 {%endfor%}
             </div>

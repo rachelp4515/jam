@@ -59,7 +59,7 @@ def create():
     tag = {
         # "song_id" : ObjectId(request.form.get('song_id')),
         "title": tag_title,
-        "songs": request.form.get("songs")
+        "songs": request.form.getlist("songs")
     }
     songs = db.songs.find()
     db.tags.insert_one(tag)
@@ -88,8 +88,8 @@ def edit(tag_id):
     if not tag:
         flash("That tag does not exist!")
         return redirect(url_for("tags.all_tags"))
-
-    return render_template("tags/edit_tag.html", tag=tag, songs=db.songs.find(), tags = db.tags.find())
+    songs = db.songs.find({"user_id": user["_id"]})
+    return render_template("tags/edit_tag.html", tag=tag, songs=songs, tags = db.tags.find())
 
 
 #-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_/ update tag
