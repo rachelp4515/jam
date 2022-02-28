@@ -1,4 +1,3 @@
-import imp
 import os
 
 from flask import Flask

@@ -1,8 +1,10 @@
 from flask import Blueprint, render_template
+import db
 
 routes = Blueprint("main", __name__)
 
 
 @routes.route("/")
 def index():
-    return render_template("index.html")
+    tags = db.tags.find()
+    return render_template("index.html", tags=tags)
