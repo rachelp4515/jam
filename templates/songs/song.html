@@ -2,8 +2,14 @@
 
 {% block content %}
     <div class="container">
-        <h1>{{ song.name }}</h1>
-        <p>{{ song.artist }}</p>
-        <a href="{{ url_for('songs.edit', song_id=song._id) }}">Edit</a>
+        <p class="fw-bold d-inline">Tags:</p>
+        {% for tag in tags %}
+            <p class="d-inline">{{ tag.title }}</p>
+        {% endfor %}
+
+        <h1 class="mt-2 mb-0">{{ song.name }}</h1>
+        <p class="text-muted">{{ song.artist }}</p>
+        <a href="{{ url_for('songs.edit', song_id=song._id) }}" class="mt-2 d-block">Edit</a>
+
     </div>
 {% endblock %}
