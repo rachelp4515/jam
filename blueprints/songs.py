@@ -4,6 +4,7 @@ import db
 
 routes = Blueprint("songs", __name__, url_prefix="/songs")
 
+
 # Index
 @routes.route("/")
 def index():
@@ -31,7 +32,11 @@ def show(song_id):
     if not song:
         flash("That song does not exist!")
         return redirect(url_for("songs.index"))
-    return render_template("songs/song.html", song=song)
+
+    tags = db.tags.aggregate([
+        {"$match": {"songs": {"$in": [song_id]}}}
+    ])
+    return render_template("songs/song.html", song=song, tags=tags)
 
 
 # New song form
@@ -40,9 +45,9 @@ def new():
     user = db.users.find_one({"name": session.get("username")})
     if not user:
         return redirect(url_for("users.login"))
-    tags=db.tags.find()
+    tags = db.tags.find()
     print(tags)
-    return render_template("songs/new_song.html",tags=tags )
+    return render_template("songs/new_song.html", tags=tags)
 
 
 # Create song
@@ -95,7 +100,10 @@ def edit(song_id):
         flash("That song does not exist!")
         return redirect(url_for("songs.index"))
 
-    return render_template("songs/edit_song.html", song=song, tags = db.tags.find())
+    tags = db.tags.aggregate([
+        {"$match": {"songs": {"$in": [song_id]}}}
+    ])
+    return render_template("songs/edit_song.html", song=song, tags=tags)
 
 
 # Update song
