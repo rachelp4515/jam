@@ -1,0 +1,9 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% for song in song_list %}
+<p> {{ song }}</p> 
+{%endfor%}
+<!-- this is returning the song id, need to fix that so it returns the name, will do  -->
+{% endblock %}

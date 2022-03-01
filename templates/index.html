@@ -25,7 +25,6 @@
                 {% for tag in tags %}
                     <div class="col-md-3">
                         <div class="card">
-                            <img src="https://via.placeholder.com/250x150" class="card-img-top" alt="Example image">
                             <div class="card-body p-1">
                                 <p class="card-title text-muted m-0">{{ tag.title }}</p>
                                 <a href="{{ url_for('tags.show', tag_id=tag._id) }}" class="stretched-link"></a>

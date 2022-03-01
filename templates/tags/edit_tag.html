@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
         <h1>Edit Tag</h1>
-        <form action="{{ url_for('tags.create') }}" method="POST">
+        <form action="{{ url_for('tags.update',tag_id=tag._id) }}" method="POST">
             <div class="form-group mb-2">
                 <label class="w-100">Name
                     <input type="text" class="form-control" style="max-width: 350px ;" placeholder="tag name"
@@ -16,9 +16,9 @@
                 <h4>Songs to Tag</h4>
                 {% for song in songs %}
                     {% if song["_id"]|string in tag["songs"] %}
-                        <input type="checkbox" id="songs" name="songs" value="songs" checked>
+                        <input type="checkbox" id="songs" name="songs" value="{{song._id}}" checked>
                     {% else %}
-                        <input type="checkbox" id="songs" name="songs" value="songs">
+                        <input type="checkbox" id="songs" name="songs" value="{{song._id}}">
                     {% endif %}
                     <label for="songs">{{ song.name }}</label>
                 {% endfor %}

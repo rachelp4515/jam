@@ -96,6 +96,10 @@ def edit(tag_id):
 
 @routes.route("/<string:tag_id>/update/", methods=["POST"])
 def update(tag_id):
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+
     if not ObjectId.is_valid(tag_id):
         flash("Invalid tag!")
         return redirect(url_for("tags.index"))
@@ -108,7 +112,7 @@ def update(tag_id):
     db.tags.update_one({"_id": tag["_id"]},
                             {"$set": {
                                 "title": request.form.get("title"),
-                                "songs": request.form.get("songs")
+                                "songs": request.form.getlist("songs")
                             }})
 
     return redirect(url_for("tags.show", tag_id=tag["_id"]))
