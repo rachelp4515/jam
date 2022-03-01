@@ -2,9 +2,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h4>new</h4>
+<!-- <h4 class="m-3 p-3">New</h4> -->
      <div class="container">
-        <h1>Add Tag</h1>
+        <h1>Add New Tag</h1>
         <form action="{{ url_for('tags.create') }}" method="POST">
             <div class="form-group mb-2">
                 <label class="w-100">Name
@@ -14,17 +14,18 @@
 
             
             <div>
-                <h4>Songs to Tag</h4>
+                <h4 class="pt-2">Songs to Tag</h4>
                 {% for song in songs %}
 
                 <input type="checkbox" id="songs" name="songs" value="{{ song._id }}">
-                <label for="songs">{{song.name}}</label>
+                <label for="songs" class="p-2">{{song.name}}</label>
                 {%endfor%}
             </div>
             
               
-           
-            <button type="submit" class="btn btn-primary">Submit</button>
+           <div class="p-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+           </div>
         </form>
     </div> 
 {% endblock %}

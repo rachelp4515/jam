@@ -3,8 +3,8 @@
 {% block content %}
     <div class="container-fluid p-0">
         <div class="p-5 mt-5 text-center">
+            <!-- <h1 class="display-5">Jam</h1> -->
             <img class="d-block mx-auto mb-4" src="static/images/PLM.png" alt="logo" width="400" height="400">
-            <h1 class="display-5">Jam</h1>
             <div class="col-md-6 mx-auto">
                 <p>An app that lets you generate a playlist from your library based off any mood, event, or genre.</p>
                 <a href="{{ url_for('users.login') }}" class="btn btn-primary px-3">Join Now</a>
@@ -12,17 +12,16 @@
         </div>
 
         <div class="p-5 text-center bg-light">
-            <h1 class="display-6" style="color: blueviolet; padding: .3em;">Tags</h1>
+            <h1 class="display-6" style="color: purple; padding: .3em;">Tags</h1>
             <a href="{{ url_for('tags.new') }}" class="btn" style="float: left; padding: 1em; border: 1px solid blueviolet; color: black;"> Create New Tag</a>
 
 
             <div class="row mx-auto g-3 mt-2" style="width: 75%">
-
                 {% for tag in tags %}
                     <div class="col-md-3">
                         <div class="card">
-                            <div class="card-body p-1">
-                                <p class="card-title text-muted m-0">{{ tag.title }}</p>
+                            <div class="card-body p-1" style="border: 2px solid blueviolet;">
+                                <p class="card-title m-0" style="color: blueviolet;">{{ tag.title }}</p>
                                 <a href="{{ url_for('tags.show', tag_id=tag._id) }}" class="stretched-link"></a>
                             </div>
                         </div>
