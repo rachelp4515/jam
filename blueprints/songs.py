@@ -70,6 +70,9 @@ def create():
         "artist": song_artist
     }
     db.songs.insert_one(song)
+    checked_tags = [ObjectId(tag) for tag in request.form.getlist("tags")]
+    if checked_tags:
+        db.tags.update_many({"_id": {"$in": checked_tags}}, {"$push": {"songs": str(song["_id"])}})
     return redirect(url_for("songs.show", song_id=song["_id"]))
 
 
@@ -100,10 +103,7 @@ def edit(song_id):
         flash("That song does not exist!")
         return redirect(url_for("songs.index"))
 
-    tags = db.tags.aggregate([
-        {"$match": {"songs": {"$in": [song_id]}}}
-    ])
-    return render_template("songs/edit_song.html", song=song, tags=tags)
+    return render_template("songs/edit_song.html", song=song)
 
 
 # Update song

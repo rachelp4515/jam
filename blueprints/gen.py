@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session
 from bson.objectid import ObjectId
-from sqlalchemy import false
 import db
 import math
 from random import randrange
