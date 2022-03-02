@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session
 from bson.objectid import ObjectId
-from flask_login import login_required
 import db
 
 routes = Blueprint("gen", __name__, url_prefix="/gen")
@@ -11,6 +10,7 @@ def index():
     user = db.users.find_one({"name": session.get("username")})
     if not user:
         return redirect(url_for("users.login"))
+
     tags = db.tags.find()
     songs = db.songs.find({"user_id": user["_id"]})
     return render_template("gen/create.html", tags=tags, songs=songs)
@@ -18,6 +18,10 @@ def index():
 
 @routes.route("/create/", methods=["POST"])
 def generate():
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+
     tags = request.form.getlist("tags")
     if not request.form.get("length"):
         return redirect(url_for("gen.index"))
