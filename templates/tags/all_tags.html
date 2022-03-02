@@ -1,20 +1,25 @@
-<!-- do things -->
 {% extends "base.html" %}
 
 {% block content %}
-<div>
-    <h2> All Tags</h2>
-    <a href="/tags/new/"><button>new tag</button></a>
-{% for tag in tags %}
-                <div>
-                   <p class="border border-primary rounded">{{ tag.title }}</p>
-                    <form method='POST' action="/tags/{{tag._id}}/delete">
-                    <button class=" btn bg-danger border-dark" type="submit"> Delete </button>
-                    </form>
+    <div class="container">
+        <h2> All Tags</h2>
+        <a href="/tags/new/" class="btn btn-primary">Create Tag</a>
+        <div class="row mt-2">
+            {% for tag in tags %}
+                <div class="col-3">
+                    <div class="card bg-dark">
+                        <div class="card-body">
+                            <p class="card-title">{{ tag.title }}</p>
+                            <a href="{{ url_for('tags.edit', tag_id=tag._id) }}" class="btn btn-primary btn-sm">Edit Tag </a>
+                            <form method="POST" action="/tags/{{ tag._id }}/delete" class="d-inline mx-2">
+                                <button class="btn btn-danger btn-sm" type="submit"> Delete</button>
+                            </form>
+                        </div>
 
-                    <a href="{{ url_for('tags.edit', tag_id=tag._id) }}"> <button class=" btn bg-light border-dark" >Edit Tag </button></a>
-                
+                    </div>
+
                 </div>
-    {%endfor%}
-</div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

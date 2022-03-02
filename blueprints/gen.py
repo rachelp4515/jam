@@ -19,8 +19,11 @@ def index():
 def generate():
     tags = request.form.getlist("tags")
     if not request.form.get("length"):
-        return redirect(url_for(index))
+        return redirect(url_for("gen.index"))
+
     song_num = int(request.form.get("length"))
+    if song_num <= 0:
+        return redirect(url_for("gen.index"))
 
     ids = [ObjectId(id) for id in tags]
     sampled_songs = list(db.tags.aggregate([
