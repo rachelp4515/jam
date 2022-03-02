@@ -46,7 +46,6 @@ def new():
     if not user:
         return redirect(url_for("users.login"))
     tags = db.tags.find()
-    print(tags)
     return render_template("songs/new_song.html", tags=tags)
 
 

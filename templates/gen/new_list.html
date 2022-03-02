@@ -1,9 +1,20 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 
 {% block content %}
-
-{% for song in song_list %}
-<p> {{ song }}</p> 
-{%endfor%}
-<!-- this is returning the song id, need to fix that so it returns the name, will do  -->
+    <div class="container">
+        <h1>Your Playlist:</h1>
+        <div class="row">
+            {% for song in song_list %}
+                <div class="col-3">
+                    <div class="card bg-dark">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ song.name }}</h2>
+                            <p class="card-subtitle mb-2 text-muted">{{ song.artist }}</p>
+                        </div>
+                        <a href="{{ url_for('songs.show', song_id=song._id) }}" class="stretched-link"> </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
