@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session
 from bson.objectid import ObjectId
+from flask_login import login_required
 import db
 import math
 from random import randrange
@@ -34,6 +35,9 @@ def generate()
 """
 @routes.route('/create/', methods=["POST"])
 def generate():
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
     tags = request.form.getlist('tags')
     print(tags, '-----------------------------')
     library = db.songs.find()
@@ -66,8 +70,17 @@ def generate():
                 added=True
 
         # get the song names from ids, so song name is returned instead of the id 
-    return render_template('/gen/new_list.html', song_list=song_list)
-        
+    names = []
+    for song in song_list:
+        name = db.songs.find({"_id": ObjectId(song)})
+        names.append(name.name)
+
+    return render_template('/gen/new_list.html', song_list=song_list, names=names)
+
+
+@routes.route('/create/save')
+def save_playlist():
+    pass
 
 
 
