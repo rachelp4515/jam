@@ -1,25 +1,28 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 
 {% block content %}
+    <div class="container">
+        <h2>Generate a playlist</h2>
 
-<h2>Generate a playlist</h2>
-<form action="{{ url_for('gen.generate') }}" method="POST">
-    <h3> 1. Select tags </h3>
-        <p>
-            {% for tag in tags %}
-            <input type="checkbox" name="tags" value="{{tag._id}}">
-            <label for="tags"> {{ tag.title }}</label>
-            {% endfor %}
-        </p>
-        
-        <br>
+        <form action="{{ url_for('gen.generate') }}" method="POST">
+            <div class="form-group my-3">
+                <p class="h5">Select Tags</p>
+                {% for tag in tags %}
+                    <input type="checkbox" name="tags" value="{{ tag._id }}">
+                    <label for="tags"> {{ tag.title }}</label>
+                {% endfor %}
+            </div>
 
-    <h3> 2. Input length of playlist</h3>
-        <input type="number" min="1" max="150" name="length" placeholder="number of songs">
+            <div class="form-group">
+                <p class="h5">Length of playlist</p>
 
-    <br>
+                <input type="number" min="1" max="150" name="length" placeholder="# of songs" class="form-control"
+                       required>
+            </div>
 
-    <h3> 3. <button type="submit"> Create! </button></h3>
-</form>
-    
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}
