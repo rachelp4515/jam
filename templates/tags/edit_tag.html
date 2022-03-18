@@ -1,31 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
-        <h1>Edit Tag</h1>
-        <form action="{{ url_for('tags.update',tag_id=tag._id) }}" method="POST">
-            <div class="form-group mb-2">
-                <label class="w-100">Name
-                    <input type="text" class="form-control" style="max-width: 350px ;" placeholder="tag name"
-                           name="title" value="{{ tag.title }}" required>
-                </label>
+<div class="bg-gradient-to-b from-slate-500 to-indigo-500 h-screen flex items-center justify-center">
+
+    <div
+        class="py-10 px-32   border-2 border-y-0 h-screen border-slate-900 flex flex-col  text-center items-center bg-cyan-300/50  text-2xl">
+        <h1 class="text-3xl">Edit Tag</h1>
+        <form action="{{ url_for('tags.update',tag_id=tag._id) }}" method="POST" class="m-5">
+            <div>
+                <label>Name</label>
+                <input type="text" style="max-width: 350px ;" placeholder="tag name" name="title"
+                    value="{{ tag.title }}" required class="border border-slate-500 rounded bg-gray-100 p-1 m-2">
             </div>
 
+
+            <div class="flex-col border rounded bg-slate-300/40 p-5 h-60 overflow-scroll ">
+                
+                <h4 class="p-2">Songs to Tag</h4>
+                <hr>
+                {% for song in songs %}
+                <div class="flex items-center">
+                {% if song["_id"]|string in tag["songs"] %}
+                    <input type="checkbox" id="songs" name="songs" value="{{song._id}}" checked>
+                    {% else %}
+                    <input type="checkbox" id="songs" name="songs" value="{{song._id}}">
+                    {% endif %}
+                    <label class="p-2" for="songs">{{ song.name }}</label>
+                </div>
+                    {% endfor %}
+            </div>
 
             <div>
-                <h4>Songs to Tag</h4>
-                {% for song in songs %}
-                    {% if song["_id"]|string in tag["songs"] %}
-                        <input type="checkbox" id="songs" name="songs" value="{{song._id}}" checked>
-                    {% else %}
-                        <input type="checkbox" id="songs" name="songs" value="{{song._id}}">
-                    {% endif %}
-                    <label for="songs">{{ song.name }}</label>
-                {% endfor %}
+                <button type="submit" class="border-2 border-slate-800 rounded-full bg-indigo-400/50 p-2 my-3">Submit</button>
+
             </div>
-
-
-            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+</div>
 {% endblock %}

@@ -1,22 +1,61 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-        <h1>Edit Song</h1>
-        <form action="{{ url_for('songs.update', song_id=song._id) }}" method="POST">
-            <div class="form-group mb-2">
-                <label class="w-100">Name
-                    <input type="text" class="form-control" placeholder="Song name" name="name"
-                           value="{{ song.name }}" required>
-                </label>
-            </div>
-            <div class="form-group mb-2">
-                <label class="w-100">Artist
-                    <input class="form-control" placeholder="Artist" name="artist"
-                           value="{{ song.artist }}" required>
-                </label>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+    <div class="bg-gradient-to-b from-slate-500 to-cyan-700 h-screen flex  justify-center">
+       
+        <div class="py-10 px-32   border-2 border-y-0 h-screen border-slate-900  flex-col  text-center items-center bg-indigo-300/40  text-2xl">
+            <h1 lass="text-3xl">Edit Song</h1>
+            <form action="{{ url_for('songs.update', song_id=song._id) }}" method="POST" class="m-5 ">
+                <div>
+                    <label class="w-100 m-4">Name
+                        <input type="text" placeholder="Song name" name="name"
+                        value="{{ song.name }}" required class="border border-slate-500 rounded bg-gray-100 p-1 m-2">
+                    </label>
+                </div>
+
+                <div>
+                    <label class="w-100 m-4">Artist
+                        <input placeholder="Artist" name="artist"
+                        value="{{ song.artist }}" required class="border border-slate-500 rounded bg-gray-100 p-1 m-2">
+                    </label>
+                </div>
+
+                <!-- <div class="flex-col border rounded bg-slate-300/40 p-5 h-60 overflow-scroll ">
+                
+                    <h4 class="p-2">Songs to Tag</h4>
+                    <hr>
+                    {% for song in songs %}
+                    <div class="flex items-center">
+                    {% if song["_id"]|string in tag["songs"] %}
+                        <input type="checkbox" id="songs" name="songs" value="{{song._id}}" checked>
+                        {% else %}
+                        <input type="checkbox" id="songs" name="songs" value="{{song._id}}">
+                        {% endif %}
+                        <label class="p-2" for="songs">{{ song.name }}</label>
+                    </div>
+                        {% endfor %}
+                </div> -->
+
+                <div class="flex-col  border rounded bg-slate-300/40 p-5 h-60 w-full overflow-scroll ">
+                    <p class="my-5"> Add Tags </p>
+                    {% for tag in tags %}
+                    <div class="">
+                        {% if song["_id"]|string in tag["songs"] %}
+                        <input type="checkbox" id="tag" value="{{ tag._id }}" name="tags" checked>
+                        {% else %}
+                        <input type="checkbox" id="tag" value="{{ tag._id }}" name="tags" >
+                        {%endif%}
+                        <label for="tag">{{ tag.title }}</label>
+
+                    </div>
+                    <!-- <p class="text-slate-700 my-2"><em> No tags yet</em></p> -->
+                    {% endfor %}
+                </div>
+
+                    <button type="submit" class="border-2 border-slate-800 rounded-lg bg-cyan-400/50 p-2 m-3">Submit</button>
+            </form>
+        </div>
+    
     </div>
 {% endblock %}
+

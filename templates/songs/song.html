@@ -1,15 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-        <p class="fw-bold d-inline">Tags:</p>
-        {% for tag in tags %}
-            <p class="d-inline">{{ tag.title }}</p>
-        {% endfor %}
+<div class="bg-gradient-to-br from-slate-400 to-slate-600 h-screen p-5 flex justify-center items-center">
 
-        <h1 class="mt-2 mb-0">{{ song.name }}</h1>
-        <p class="text-muted">{{ song.artist }}</p>
-        <a href="{{ url_for('songs.edit', song_id=song._id) }}" class="mt-2 d-block">Edit</a>
-
+    <div class="bg-gradient-to-b from-cyan-500/40 to-indigo-500/40 m-5 px-20 py-10 flex-col justify-center items-center h-screen w-fit">
+        <h1 class="text-4xl m-2">{{ song.name }}</h1>
+        <p class="text-2xl "> Artist: {{ song.artist }}</p>
+        <p class="text-2xl ">Tags:</p>
+        <ul class="mb-7">
+            
+            {% for tag in tags %}
+            <li class="text-2xl ">{{ tag.title }}</li> 
+            {% endfor %}
+        </ul>
+        <div class="flex flex-col h-40">
+            <a href="{{ url_for('songs.edit', song_id=song._id) }}" class="border-2 border-slate-800 rounded-full bg-indigo-400/50 p-2 m-3 w-28 text-center">Edit Song</a>
+            <form method="POST" action="{{ url_for('songs.destroy', song_id=song._id) }}">
+                <button type="submit" class="border-2 border-slate-800 rounded-full bg-slate-400/50 p-2 m-3 w-28"> Delete Song</button>
+            </form>
+        </div>
     </div>
+
+</div>
 {% endblock %}

@@ -2,30 +2,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- <h4 class="m-3 p-3">New</h4> -->
-     <div class="container">
-        <h1>Add New Tag</h1>
-        <form action="{{ url_for('tags.create') }}" method="POST">
-            <div class="form-group mb-2">
-                <label class="w-100">Name
-                    <input type="text" class="form-control" style="max-width: 350px ;" placeholder="tag name" name="title" required>
-                </label>
+<div class="bg-gradient-to-b from-slate-500 to-indigo-500 h-screen flex items-center justify-center">
+
+    <div class="py-10 px-32   border-2 border-y-0 h-screen border-slate-900 flex flex-col  text-center items-center bg-cyan-300/50  text-2xl">
+        <h1 class="text-3xl">Add New Tag</h1>
+        <form action="{{ url_for('tags.create') }}" method="POST" class="m-5">
+            <div class="m-5">
+                <label>Name </label>
+                    <input type="text" style="max-width: 350px ;" placeholder="tag name" name="title" required class="border border-slate-500 rounded bg-gray-100 p-1 m-2">
             </div>
-
             
-            <div>
-                <h4 class="pt-2">Songs to Tag</h4>
+            
+            <div class="flex-col border rounded bg-slate-300/40 p-5 h-96 overflow-scroll">
+                <h4>Songs to Tag</h4>
                 {% for song in songs %}
-
-                <input type="checkbox" id="songs" name="songs" value="{{ song._id }}">
-                <label for="songs" class="p-2">{{song.name}}</label>
+                <div class="flex items-center ">
+                    <input type="checkbox" id="songs" name="songs" value="{{ song._id }}">
+                    <label for="songs" class="p-2">{{song.name}}</label>
+                </div>
                 {%endfor%}
             </div>
             
-              
-           <div class="p-3">
-                <button type="submit" class="btn btn-primary">Submit</button>
-           </div>
+            
+            <div class="p-3">
+                <button type="submit" class="border-2 border-slate-800 rounded-full bg-indigo-400/50 p-2 my-3">Submit</button>
+            </div>
         </form>
     </div> 
+</div>
 {% endblock %}

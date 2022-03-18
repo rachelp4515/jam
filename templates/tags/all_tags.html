@@ -1,25 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-        <h2> All Tags</h2>
-        <a href="/tags/new/" class="btn btn-primary">Create Tag</a>
-        <div class="row mt-2">
-            {% for tag in tags %}
-                <div class="col-3">
-                    <div class="card bg-dark">
-                        <div class="card-body">
-                            <p class="card-title">{{ tag.title }}</p>
-                            <a href="{{ url_for('tags.edit', tag_id=tag._id) }}" class="btn btn-primary btn-sm">Edit Tag </a>
-                            <form method="POST" action="/tags/{{ tag._id }}/delete" class="d-inline mx-2">
-                                <button class="btn btn-danger btn-sm" type="submit"> Delete</button>
-                            </form>
-                        </div>
-
-                    </div>
-
-                </div>
-            {% endfor %}
-        </div>
+<div class="flex flex-col   bg-gradient-to-b from-slate-500 to-indigo-500 h-screen">
+    <div class="flex-col">
+        <h1 class="text-5xl m-5">Your Tags</h1>
+        <h1 class="text-2xl text-slate-800 mx-6 underline"><em><a href="/tags/new/">add tags</a> </em></h1>
     </div>
+
+    <div class="flex m-5">
+        {% for tag in tags %}
+        <div class=" border-2 border-slate-800 rouned even:bg-cyan-300/40 odd:bg-indigo-400/50 p-9 m-5 w-60">
+            <p class="text-3xl ">{{ tag.title }}</p>
+            <a href="{{ url_for('tags.edit', tag_id=tag._id) }}" class="text-slate-800">Edit Tag </a>
+            <form method="POST" action="/tags/{{ tag._id }}/delete">
+                <button type="submit" class="text-slate-800 bg-slate-400 p-1 my-3"> Delete</button>
+            </form>
+        </div>
+        {%else%}
+        <p class="text-center mt-20"><em>No tags yet</em> </p>
+
+
+        {% endfor %}
+    </div>
+
+</div>
 {% endblock %}

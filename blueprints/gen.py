@@ -49,4 +49,17 @@ def generate():
             "songs": 1
         }}
     ]))[0]["songs"]
+    # plist = {
+    #     "user_id": user["_id"],
+    #     'name': '',
+    #     'songs': sampled_songs,
+    # }
+    # db.lists.insert_one(plist)
     return render_template("/gen/new_list.html", song_list=sampled_songs)
+
+
+@routes.route('/create/save/', methods=['GET', 'POST'])
+def save():
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))

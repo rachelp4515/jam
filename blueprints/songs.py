@@ -72,7 +72,7 @@ def create():
     checked_tags = [ObjectId(tag) for tag in request.form.getlist("tags")]
     if checked_tags:
         db.tags.update_many({"_id": {"$in": checked_tags}}, {"$push": {"songs": str(song["_id"])}})
-    return redirect(url_for("songs.show", song_id=song["_id"]))
+    return redirect(url_for("songs.index", song_id=song["_id"]))
 
 
 # Delete song
@@ -83,12 +83,14 @@ def destroy(song_id):
         return redirect(url_for("users.login"))
 
     db.songs.delete_one({"_id": ObjectId(song_id), "user_id": user["_id"]})
-    return "Deleted", 200
+    flash("Song deleted")
+    return redirect(url_for('songs.index'))
 
 
 # Edit song form
 @routes.route("/<string:song_id>/edit/")
 def edit(song_id):
+    tags = db.tags.find()
     user = db.users.find_one({"name": session.get("username")})
     if not user:
         return redirect(url_for("users.login"))
@@ -102,7 +104,7 @@ def edit(song_id):
         flash("That song does not exist!")
         return redirect(url_for("songs.index"))
 
-    return render_template("songs/edit_song.html", song=song)
+    return render_template("songs/edit_song.html", song=song, tags=tags)
 
 
 # Update song
@@ -126,5 +128,8 @@ def update(song_id):
                             "name": request.form.get("name"),
                             "artist": request.form.get("artist")
                         }})
+    checked_tags = [ObjectId(tag) for tag in request.form.getlist("tags")]
+    if checked_tags:
+        db.tags.update_many({"_id": {"$in": checked_tags}}, {"$push": {"songs": str(song["_id"])}})
 
     return redirect(url_for("songs.show", song_id=song["_id"]))

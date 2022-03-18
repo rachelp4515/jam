@@ -1,37 +1,38 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
-    <div class="container">
-        <img src="/static/images/PLM.png" alt="logo" width="50" height="50">
-        <a class="navbar-brand mx-2 fs-2" href="{{ url_for('main.index') }}">JAM</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
-                </li>
+<nav class='bg-gradient-to-r from-slate-900 to-black py-5'>
+    <div class="flex space-x-4">
+        <h3 class=" p-3 font-medium text-4xl" style="letter-spacing: -5px; font-family: 'Cinzel Decorative', cursive; font-family: 'Lexend Peta', sans-serif;color: rgb(34, 211, 238); text-shadow: -2px 2px 0px #1E19F2, -4px 4px 0px #000000;">PLM</h2>
+
+        <div class="flex" >
+            
+
+                    <a href="{{ url_for('main.index') }}" class="bg-cyan-300/75 hover:bg-cyan-600 text-white px-3 py-2 font-medium m-5 rounded-bl-lg rounded-tr-lg text-xl"
+                    > Home </a>
+   
                 {% if session['username'] %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('songs.index') }}">Library</a>
-                    </li>
+                    
+                        <a href="{{ url_for('songs.index') }}"class="bg-indigo-500 hover:bg-indigo-700 text-white px-3 py-2 font-medium m-5 rounded-bl-lg rounded-tr-lg text-xl">Library</a>
+                    
                     <!--<li class="nav-item">
                         <a class="nav-link" href="#">Playlists</a>
                     </li>-->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('tags.all_tags')}}">Tags</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('gen.index') }}">Generate Playlist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('users.logout') }}">Logout</a>
-                    </li>
+                    
+                        <a href="{{url_for('tags.all_tags')}}"class="bg-gray-600 hover:bg-slate-700 text-white px-3 py-2 font-medium m-5 rounded-bl-lg rounded-tr-lg text-xl"
+                        > Tags </a>
+                    
+                        <a href="{{url_for('gen.index') }}"class="bg-cyan-300/75 hover:bg-cyan-600 text-white px-3 py-2 font-medium m-5 rounded-bl-lg rounded-tr-lg text-xl"
+                        >Generate</a>
+                    
+                        <a href="{{ url_for('users.logout') }}"class="bg-indigo-500 hover:bg-indigo-700 text-white px-3 py-2 font-medium m-5 rounded-bl-lg rounded-tr-lg text-xl"
+                        >Logout</a>
+                    
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('users.login') }}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('users.register') }}">Signup</a>
-                    </li>
+                    
+                        <a href="{{ url_for('users.login') }}"class="bg-indigo-500 hover:bg-indigo-700 text-white px-3 py-2 font-medium m-5 rounded-bl-lg rounded-tr-lg text-xl">Login</a>
+                    
+                        <a href="{{ url_for('users.register') }}"class="bg-gray-600 hover:bg-slate-700 text-white px-3 py-2 font-medium m-5 rounded-bl-lg rounded-tr-lg text-xl">Signup</a>
+                    
                 {% endif %}
-            </ul>
+           
         </div>
     </div>
 </nav>

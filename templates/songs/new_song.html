@@ -1,31 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-        <h1>Add Song</h1>
-        <form action="{{ url_for('songs.create') }}" method="POST">
-            <div class="form-group mb-2">
-                <label class="w-100">Name
-                    <input type="text" class="form-control" placeholder="Song name" name="name" required>
-                </label>
-            </div>
-            <div class="form-group mb-2">
-                <label class="w-100">Artist
-                    <input class="form-control" placeholder="Artist" name="artist" required>
-                </label>
+<div class="bg-gradient-to-b from-slate-500 to-cyan-700 h-screen flex items-center justify-center">
+
+    <div
+        class="py-10 px-32   border-2 border-y-0 h-screen border-slate-900 flex flex-col  text-center items-center bg-indigo-300/75  text-2xl">
+        <h1 class="text-3xl">Add a Song</h1>
+        <form action="{{ url_for('songs.create') }}" method="POST" class="m-5">
+            <div>
+                <label>Name </label>
+                <input type="text" placeholder="Song name" name="name" required
+                    class="border border-slate-500 rounded bg-gray-100 p-1 m-2">
             </div>
 
-            <div class="form-group mb-2">
-                <p class="mb-0"> Add Tags </p>
+            <div>
+                <label>Artist</label>
+                <input placeholder="Artist" name="artist" required
+                    class="border border-slate-500 rounded bg-gray-100 p-1 m-2">
+            </div>
+
+            <div class="flex-col  border rounded bg-slate-300/40 p-0 h-60 w-full overflow-scroll my-8">
+                <p class="my-5"> Add Tags </p>
                 {% for tag in tags %}
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="tag" value="{{ tag._id }}" name="tags">
-                        <label class="form-check-label" for="tag">{{ tag.title }}</label>
-                    </div>
+                <div>
+                    <input type="checkbox" id="tag" value="{{ tag._id }}" name="tags">
+                    <label for="tag">{{ tag.title }}</label>
+                </div>
+                {% else %}
+                <p class="text-slate-700 my-2"><em> No tags yet</em></p>
                 {% endfor %}
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="border-2 border-slate-800 rounded-full bg-cyan-500/50 p-2 my-3">Submit</button>
         </form>
     </div>
+</div>
 {% endblock %}

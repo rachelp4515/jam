@@ -105,9 +105,9 @@ def update(tag_id):
         return redirect(url_for("tags.index"))
 
     tag = db.tags.find_one({"_id": ObjectId(tag_id)})
-    if not tag:
-        flash("That tag does not exist!")
-        return redirect(url_for("tags.index"))
+    # if not tag:
+    #     flash("That tag does not exist!")
+    #     return redirect(url_for("tags.index"))
 
     db.tags.update_one({"_id": tag["_id"]},
                             {"$set": {

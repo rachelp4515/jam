@@ -1,20 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
-        <h1>Your Playlist:</h1>
-        <div class="row">
+<div class="bg-gradient-to-bl from-indigo-400/50 to-cyan-600/50 h-screen p-10">
+
+    <div class="">
+        <h1 class="text-4xl m-8">Your Playlist:</h1>
+        <div class="bg-slate-300/40 flex-col mx-5 rounded">
             {% for song in song_list %}
-                <div class="col-3">
-                    <div class="card bg-dark">
-                        <div class="card-body">
-                            <h2 class="card-title">{{ song.name }}</h2>
-                            <p class="card-subtitle mb-2 text-muted">{{ song.artist }}</p>
-                        </div>
-                        <a href="{{ url_for('songs.show', song_id=song._id) }}" class="stretched-link"> </a>
+                    <div class="even:bg-cyan-500/30 odd:bg-indigo500/30 justify-between py-4 px-8   flex">
+                        <h2>{{ song.name }}</h2>
+                        <p>{{ song.artist }}</p>
                     </div>
-                </div>
             {% endfor %}
         </div>
     </div>
+</div>
 {% endblock %}
