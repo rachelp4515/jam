@@ -72,7 +72,7 @@ def create():
     checked_tags = [ObjectId(tag) for tag in request.form.getlist("tags")]
     if checked_tags:
         db.tags.update_many({"_id": {"$in": checked_tags}}, {"$push": {"songs": str(song["_id"])}})
-    return redirect(url_for("songs.index", song_id=song["_id"]))
+    return redirect(url_for("songs.index", song_id=song["_id"])) 
 
 
 # Delete song

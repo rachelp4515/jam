@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, session
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from bson.objectid import ObjectId
 import db
 
@@ -15,6 +15,8 @@ def index():
     songs = db.songs.find({"user_id": user["_id"]})
     return render_template("gen/create.html", tags=tags, songs=songs)
 
+
+#----------------------------------------------/ CREATE
 
 @routes.route("/create/", methods=["POST"])
 def generate():
@@ -49,17 +51,58 @@ def generate():
             "songs": 1
         }}
     ]))[0]["songs"]
-    # plist = {
-    #     "user_id": user["_id"],
-    #     'name': '',
-    #     'songs': sampled_songs,
-    # }
-    # db.lists.insert_one(plist)
+    plist = {
+        "user_id": user["_id"],
+        'name': '',
+        'desc': '',
+        'songs': sampled_songs,
+    }
+    
+    db.playlists.insert_one(plist)
+
     return render_template("/gen/new_list.html", song_list=sampled_songs)
 
 
+#----------------------------------------------/ SAVE
+
 @routes.route('/create/save/', methods=['GET', 'POST'])
-def save():
+def save(list_id):
     user = db.users.find_one({"name": session.get("username")})
     if not user:
         return redirect(url_for("users.login"))
+
+    list = db.playlists.find_one({"_id": ObjectId(list_id), "user_id": user["_id"]})
+    if not list:
+        flash("List Not Found")
+        return redirect(url_for('gen.index'))
+    return render_template('gen/playlist.html', list_id=list["_id"])
+
+
+#----------------------------------------------/ ADD
+
+@routes.route('/<string:list_id>/add', methods=['POST'])
+def add(list_id):
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+
+    plist = db.playlists.find_one({"_id": ObjectId(list_id)})
+    db.playlists.update_one({'_id': plist["_id"]},
+                            {"$set":{
+                                 "name": request.form.get("name"),
+                                 "desc": request.form.get('desc')
+                             }})
+    return render_template('/gen/all_list.html', list=plist)
+
+
+
+#----------------------------------------------/ DELETE
+
+@routes.route("/<string:list_id>/delete", methods=["POST"])
+def delete(list_id):
+    user = db.users.find_one({"name": session.get("username")})
+    if not user:
+        return redirect(url_for("users.login"))
+    list=db.playlists.find()
+    db.playlists.delete_one({"_id": ObjectId(list_id)})
+    return render_template('gen/all_lists.html', list=list)
