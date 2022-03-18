@@ -4,17 +4,29 @@
 <div class="bg-gradient-to-bl from-indigo-400/50 to-cyan-600/50 h-screen p-10">
 
     <div class="">
-        <h1 class="text-4xl m-8">Your Playlist:</h1>
-        <div class="bg-slate-300/40 flex-col mx-5 rounded">
-            {% for song in song_list %}
-                    <div class="even:bg-cyan-500/30 odd:bg-indigo500/30 justify-between py-4 px-8   flex">
-                        <h2>{{ song.name }}</h2>
-                        <p>{{ song.artist }}</p>
-                    </div>
-            {% endfor %}
-        </div>
-        <a href="#"><button class="border-2 border-slate-800 rounded-full bg-indigo-400/50 p-2 m-3">Save Playlist </button></a> 
-        <a href="#"><button class="border-2 border-slate-800 rounded-full bg-indigo-400/50 p-2 m-3">  Delete Playlist </button></a>
+        <form>
+            <div>
+                <h1 class="text-4xl m-8">Name your Playlist:</h1>
+                <input type="text" name="name" class="border border-slate-500 rounded bg-gray-100 p-1 m-2">
+                <h1>Add a description <em>(optional)</em></h1></h1>
+                <textarea name="desc" id="desc" cols="20" rows="10" class="border border-slate-500 rounded bg-gray-100/80 p-1 m-2"></textarea>
+            </div>
+
+            <div class="bg-slate-300/40 flex-col mx-5 rounded">
+                {% for song in song_list %}
+                <div class="even:bg-cyan-500/30 odd:bg-indigo500/30 justify-between py-4 px-8   flex">
+                    <h2>{{ song.name }}</h2>
+                    <p>{{ song.artist }}</p>
+                </div>
+                {% endfor %}
+            </div>
+           
+            <button type="submit" class="border-2 border-slate-800 rounded-full bg-indigo-400/50 p-2 m-3">Save Playlist </button>
+        </form>
+
+        <form action="/gen/{{ list._id }}/delete" method="POST">
+            <a href="#"><button class="border-2 border-slate-800 rounded-full bg-indigo-400/50 p-2 m-3">  Delete Playlist </button></a>
+        </form>
     </div>
 </div>
 {% endblock %}

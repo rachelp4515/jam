@@ -59,23 +59,24 @@ def generate():
     }
     
     db.playlists.insert_one(plist)
+    print(plist, '-------------------------')
 
-    return render_template("/gen/new_list.html", song_list=sampled_songs)
+    return render_template("/gen/new_list.html", song_list=sampled_songs, list=plist)
 
 
-#----------------------------------------------/ SAVE
+# #----------------------------------------------/ SAVE
 
-@routes.route('/create/save/', methods=['GET', 'POST'])
-def save(list_id):
-    user = db.users.find_one({"name": session.get("username")})
-    if not user:
-        return redirect(url_for("users.login"))
+# @routes.route('/create/save/', methods=['GET', 'POST'])
+# def save(list_id):
+#     user = db.users.find_one({"name": session.get("username")})
+#     if not user:
+#         return redirect(url_for("users.login"))
 
-    list = db.playlists.find_one({"_id": ObjectId(list_id), "user_id": user["_id"]})
-    if not list:
-        flash("List Not Found")
-        return redirect(url_for('gen.index'))
-    return render_template('gen/playlist.html', list_id=list["_id"])
+#     list = db.playlists.find_one({"_id": ObjectId(list_id), "user_id": user["_id"]})
+#     if not list:
+#         flash("List Not Found")
+#         return redirect(url_for('gen.index'))
+#     return redirect(url_for('gen.index', list_id=list['_id']))
 
 
 #----------------------------------------------/ ADD
@@ -87,6 +88,7 @@ def add(list_id):
         return redirect(url_for("users.login"))
 
     plist = db.playlists.find_one({"_id": ObjectId(list_id)})
+    print('-------------------------------------')
     db.playlists.update_one({'_id': plist["_id"]},
                             {"$set":{
                                  "name": request.form.get("name"),
@@ -100,9 +102,5 @@ def add(list_id):
 
 @routes.route("/<string:list_id>/delete", methods=["POST"])
 def delete(list_id):
-    user = db.users.find_one({"name": session.get("username")})
-    if not user:
-        return redirect(url_for("users.login"))
-    list=db.playlists.find()
     db.playlists.delete_one({"_id": ObjectId(list_id)})
-    return render_template('gen/all_lists.html', list=list)
+    return render_template('gen/all_list.html', list=db.playlists.find())

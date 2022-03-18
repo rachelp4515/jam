@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div>
+    <div>
+        {% for list in list %}
+        <p>songs: {{ length | list }}</p>
+        {%else%}
+        <p>No lists yet</p>
+        {%endfor%}
 
+    </div>
+</div>
 {% endblock %}

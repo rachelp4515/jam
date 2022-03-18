@@ -20,21 +20,7 @@
                     </label>
                 </div>
 
-                <!-- <div class="flex-col border rounded bg-slate-300/40 p-5 h-60 overflow-scroll ">
-                
-                    <h4 class="p-2">Songs to Tag</h4>
-                    <hr>
-                    {% for song in songs %}
-                    <div class="flex items-center">
-                    {% if song["_id"]|string in tag["songs"] %}
-                        <input type="checkbox" id="songs" name="songs" value="{{song._id}}" checked>
-                        {% else %}
-                        <input type="checkbox" id="songs" name="songs" value="{{song._id}}">
-                        {% endif %}
-                        <label class="p-2" for="songs">{{ song.name }}</label>
-                    </div>
-                        {% endfor %}
-                </div> -->
+               
 
                 <div class="flex-col  border rounded bg-slate-300/40 p-5 h-60 w-full overflow-scroll ">
                     <p class="my-5"> Add Tags </p>
